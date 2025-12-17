@@ -37,5 +37,20 @@ link_files() {
     done < <(find "$src_dir" -type f -print0)
 }
 
+BASHRC_SOURCE='source "$HOME/.config/bash/bashrc"'
+
+add_source_if_missing() {
+    local file="$1"
+    mkdir -p "$(dirname "$file")"
+    touch "$file"
+
+    if ! grep -Fxq "$BASHRC_SOURCE" "$file"; then
+        echo "$BASHRC_SOURCE" >> "$file"
+    fi
+}
+
 link_files "$CONFIG_DIR" "$HOME/.config"
 link_files "$LOCAL_DIR" "$HOME/.local"
+
+add_source_if_missing "$HOME/.bash_profile"
+add_source_if_missing "$HOME/.bashrc"

@@ -3,6 +3,12 @@
 set -o vi
 eval "$(fzf --bash)"
 
+if [[ "$PROMPT_COMMAND" == *"__vsc_prompt_cmd_original"* ]] && \
+   ! declare -F __vsc_prompt_cmd_original >/dev/null; then
+    PROMPT_COMMAND="${PROMPT_COMMAND/__vsc_prompt_cmd_original; /}"
+    PROMPT_COMMAND="${PROMPT_COMMAND/__vsc_prompt_cmd_original/}"
+fi
+
 add_plugin() {
     local repo_path="$1"
     local base_dir="$HOME/.local/share/bash"
