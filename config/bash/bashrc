@@ -35,7 +35,7 @@ add_plugin lincheney/fzf-tab-completion
 export PATH="$(find ~/.local/bin/nvim/bin -type d -printf '%p:'):$(find ~/.local/bin -type d -printf '%p:'):$PATH"
 export PATH="${PATH%:}"
 
-PS1='\[\e[1;34m\]yyz \[\e[0;32m\]\W\[\e[0m\] > '
+PS1='\[\e[1;34m\]TT $IRD_ARCH_NAME | \[\e[0;32m\]\W\[\e[0m\] > '
 
 HISTFILE="$XDG_DATA_HOME/bash/history"
 HISTSIZE=1000000
