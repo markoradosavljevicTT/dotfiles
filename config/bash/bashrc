@@ -1,5 +1,5 @@
 [[ $- != *i* ]] && return
-[[ -t 0 ]] && stty stop undef
+stty -ixon
 set -o vi
 eval "$(fzf --bash)"
 
@@ -91,11 +91,21 @@ bind -m vi-insert '"\C-l": clear-screen'
 bind -m vi-command '"\C-l": clear-screen'
 bind -m vi-insert '"\C-e": vi-movement-mode'
 bind -m vi-insert '"\e": ""'
+bind -m vi-insert  '"\C-s": ""'
+bind -m vi-command '"\C-s": ""'
 
-stty sane
+bind -m vi-insert  '"\C-b": backward-char'
+bind -m vi-insert  '"\C-f": forward-char'
+bind -m vi-command '"\C-b": backward-char'
+bind -m vi-command '"\C-f": forward-char'
 
-# Ensure proper initialization in tmux
-if [[ -z "$TMUX" ]] && [[ "$TERM" != "tmux-256color" ]]; then
-    export SHELL=/bin/bash
-fi
+bind -m vi-insert  '"\C-a": beginning-of-line'
+bind -m vi-insert  '"\C-e": end-of-line'
+bind -m vi-command '"\C-a": beginning-of-line'
+bind -m vi-command '"\C-e": end-of-line'
 
+__fix_tty() {
+    stty sane
+    tput sgr0
+}
+trap '__fix_tty' SIGINT
